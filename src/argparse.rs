@@ -73,6 +73,7 @@ pub struct Opts {
     pub targets: Vec<String>,
     pub mode: Mode,
     pub rdp_timeout: usize,
+    pub web_timeout: usize,
     pub threads: usize,
     pub log_file: Option<String>,
     pub nmaps: Vec<String>,
@@ -128,6 +129,16 @@ pub fn parse() -> Result<Opts> {
                 )
                 .default_value("2")
                 .long("rdp-timeout")
+                .takes_value(true)
+                .takes_value(true),
+        )
+        .arg(
+            Arg::new("WEB TIMEOUT")
+                .help(
+                    "Seconds to wait after last bitmap before saving an image",
+                )
+                .default_value("2")
+                .long("web-timeout")
                 .takes_value(true)
                 .takes_value(true),
         )
@@ -337,6 +348,7 @@ pub fn parse() -> Result<Opts> {
         targets,
         mode: args.value_of_t("MODE").unwrap(),
         rdp_timeout: args.value_of_t("RDP TIMEOUT").unwrap(),
+        web_timeout: args.value_of_t("WEB TIMEOUT").unwrap(),
         threads: args.value_of_t("THREADS").unwrap(),
         log_file: args.value_of("LOG FILE").map(String::from),
         nmaps,
